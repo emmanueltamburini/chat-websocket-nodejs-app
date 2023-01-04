@@ -18,3 +18,6 @@ export const ID_COLLECTION_TERM = '/:collection/:term';
 export const ID_COLLECTION_ID = '/:collection/:id';
 export const LOGIN_PATH = '/login';
 export const GOOGLE_PATH = '/google';
+
+export const USER_CONNECTED_SOCKET_PATH = 'user-connected';
+export const DISCONNECTED_SOCKET_PATH = 'disconnect';

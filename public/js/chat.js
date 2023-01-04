@@ -57,13 +57,32 @@ const connectSocket = async () => {
         
     });
 
-    socket.on('user-connected', () => {
-        
-    });
+    socket.on('user-connected', showUsers);
 
     socket.on('receive-private-message', () => {
         
     });
+}
+
+const showUsers = (usersConnected = []) => {
+    let userHTML = '';
+
+    usersConnected.forEach(({name, uid}) => {
+      userHTML += `
+        <li>
+            <p>
+                <h5 class="text-success">
+                    ${name}
+                </h5>
+                <span class="fs-6 text-muted">
+                    ${uid}
+                </span>
+            </p>
+        </li>
+       `
+    });
+
+    users.innerHTML = userHTML;
 }
 
 const main = async () => {
@@ -71,6 +90,8 @@ const main = async () => {
 }
 
 logout.onclick = () => {
+    socket.disconnect();
+
     google.accounts.id.disableAutoSelect();
 
     google.accounts.id.revoke(localStorage.getItem('email'), done => {
