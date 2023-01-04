@@ -2,6 +2,14 @@ const form = document.querySelector('form');
 
 const url = 'http://localhost:8080/api/auth';
 
+const main = () => {
+    const token = localStorage.getItem('token') || '';
+
+    if (token.length > 10) {
+        window.location = 'chat.html';
+    }
+}
+
 form.addEventListener('submit', event => {
     event.preventDefault();
     const formData =  {};
@@ -29,7 +37,7 @@ form.addEventListener('submit', event => {
             }
             localStorage.setItem('email', response.user.email);
             localStorage.setItem('token', response.token);
-            location.reload();
+            window.location = 'chat.html';
         })
         .catch(console.warn);
 });
@@ -48,7 +56,7 @@ function handleCredentialResponse(response) {
         .then(response => {
             localStorage.setItem('email', response.user.email);
             localStorage.setItem('token', response.token);
-            location.reload();
+            window.location = 'chat.html';
         })
         .catch(console.warn);
 }
@@ -63,3 +71,5 @@ button.onclick = () => {
         location.reload();
     });
 }
+
+main();

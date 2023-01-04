@@ -2,6 +2,7 @@ import bcryptjs from "bcryptjs";
 import jwt from 'jsonwebtoken'
 
 import { EXPIRES_JWT } from "../constant/values.constant.js";
+import {User} from "../models/index.js";
 
 export const generatePassword = (password, jumps = 10) => {
     const salt = bcryptjs.genSaltSync(jumps);
@@ -35,6 +36,23 @@ export const generateJWT = (uid = '') => {
 export const checkJWT = (token = '') => {
     try {
         return jwt.verify(token, process.env.SECRET_PRIVATE_KEY);
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
+}
+
+export const getUserFromJWT = async (token = '') => {
+    try {
+        const payload = checkJWT(token);
+
+        if (!payload) return null;
+
+        const user = await User.findOne({ _id: payload.uid, status: true }).exec();
+
+        if (!user) return null;
+
+        return user;
     } catch (error) {
         console.log(error);
         return null;
