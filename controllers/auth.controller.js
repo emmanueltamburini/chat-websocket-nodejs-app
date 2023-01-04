@@ -72,4 +72,15 @@ export const googleSignInPost = async (req = request, res = response) => {
             msg: GOOGLE_TOKEN_COULD_NOT_VERIFY
         });
     }
-  };
+};
+
+export const renewToken = async (req = request, res = response) => {
+  const {user} = req;
+
+  const token = await generateJWT(user.id);
+
+  return res.json({
+    user,
+    token
+  });
+};
