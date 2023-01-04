@@ -1,6 +1,8 @@
 const form = document.querySelector('form');
 
-const url = 'http://localhost:8080/api/auth';
+const url = ( window.location.hostname.includes('localhost') )
+            ? 'http://localhost:8080/api/auth'
+            : 'https://chat-websocket-nodejs-app-production.up.railway.app/api/auth';
 
 const main = () => {
     const token = localStorage.getItem('token') || '';
