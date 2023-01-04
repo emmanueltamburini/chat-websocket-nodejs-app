@@ -5,9 +5,11 @@ const message = document.querySelector('#message');
 const users = document.querySelector('#users');
 const messages = document.querySelector('#messages');
 const logout = document.querySelector('#logout');
+const privateMessage = document.querySelector('#privateMessage');
 
 let user = null;
 let socket = null;
+let color = null;
 
 const validateJWT = async () => {
     const token = localStorage.getItem('token') || '';
@@ -28,6 +30,7 @@ const validateJWT = async () => {
         localStorage.setItem('email', userDB.email);
         localStorage.setItem('token', tokenDB);
         user = userDB;
+        color = '#'+(Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0');
         document.title = userDB.name;
 
         await connectSocket();
@@ -53,15 +56,11 @@ const connectSocket = async () => {
         console.log('Socket offline');
     });
 
-    socket.on('receive-message', payload => {
-        console.log('=== chat.js [57] ===', payload);
-    });
+    socket.on('receive-message', showMessages);
 
     socket.on('user-connected', showUsers);
 
-    socket.on('receive-private-message', () => {
-        
-    });
+    socket.on('receive-private-message', showPrivateMessage);
 }
 
 const showUsers = (usersConnected = []) => {
@@ -71,7 +70,7 @@ const showUsers = (usersConnected = []) => {
       userHTML += `
         <li>
             <p>
-                <h5 class="text-success">
+                <h5 style="color:${uid === user.uid ? 'blue' : color};">
                     ${name}
                 </h5>
                 <span class="fs-6 text-muted">
@@ -83,6 +82,47 @@ const showUsers = (usersConnected = []) => {
     });
 
     users.innerHTML = userHTML;
+}
+
+const showMessages = (messagesFromServer = []) => {
+    let messagesHTML = '';
+
+    messagesFromServer.forEach(({uid, name, message: messageFromServer}) => {
+        messagesHTML += `
+        <li>
+            <p>
+                <span style="color:${uid === user.uid ? 'blue' : color};">
+                    ${name}:
+                </span>
+                <span>
+                    ${messageFromServer}
+                </span>
+            </p>
+        </li>
+       `
+    });
+
+    messages.innerHTML = messagesHTML;
+}
+
+const showPrivateMessage = (privateMessageFromServer) => {
+    const {from, message: messageFromServer} = privateMessageFromServer;
+    let privateMessageHTML = '';
+
+    privateMessageHTML += `
+        <li>
+            <p>
+                <span style="color:${uid === user.uid ? 'blue' : color};">
+                    ${from}:
+                </span>
+                <span>
+                    ${messageFromServer}
+                </span>
+            </p>
+        </li>
+       `;
+
+    privateMessage.innerHTML = privateMessageHTML;
 }
 
 const main = async () => {
