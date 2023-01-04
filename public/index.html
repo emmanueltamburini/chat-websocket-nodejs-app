@@ -9,26 +9,29 @@
 </head>
 <body class="container">
     <div class="row mt-5">
-        <div class="col-sm-6 d-grid">
+        <div class="col-sm-6 text-center justify-content-center">
             <h1>Google Sign-in</h1>
             <hr>
             <div id="g_id_onload"
                data-client_id="518481022704-va6ua31vvmac0a8f176og16f5ej958nd.apps.googleusercontent.com"
                data-auto_prompt="false"
-               data-callback="handleCredentialResponse">
+               data-callback="handleCredentialResponse"
+               class="w-full"
+               style="display: none"
+               data-auto_select="true"
+               >
             </div>
-            <div class="g_id_signin"
-               data-type="standard"
-               data-size="large"
-               data-theme="outline"
-               data-text="sign_in_with"
-               data-shape="rectangular"
-               data-logo_alignment="left">
+            <div
+                class="g_id_signin w-full"
+                data-type="standard"
+                data-size="large"
+                data-theme="outline"
+                data-shape="rectangular"
+                data-text="continue_with"
+                data-logo_alignment="center"
+                data-width="1500"
+            >
             </div>
-            <br>
-            <button id="google_sign_out" class="btn btn-danger">
-                Sign out
-            </button>
         </div>
         <div class="col-sm-6">
             <h1>Sign-in</h1>

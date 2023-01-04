@@ -1,5 +1,11 @@
 const url = 'http://localhost:8080/api/auth';
 
+const uid = document.querySelector('#uid');
+const message = document.querySelector('#message');
+const users = document.querySelector('#users');
+const messages = document.querySelector('#messages');
+const logout = document.querySelector('#logout');
+
 let user = null;
 let socket = null;
 
@@ -38,10 +44,39 @@ const connectSocket = async () => {
             'x-token': localStorage.getItem('token')
         }
     });
+
+    socket.on('connect', () => {
+        console.log('Socket online');
+    });
+
+    socket.on('disconnect', () => {
+        console.log('Socket offline');
+    });
+
+    socket.on('receive-message', () => {
+        
+    });
+
+    socket.on('user-connected', () => {
+        
+    });
+
+    socket.on('receive-private-message', () => {
+        
+    });
 }
 
 const main = async () => {
     await validateJWT();
+}
+
+logout.onclick = () => {
+    google.accounts.id.disableAutoSelect();
+
+    google.accounts.id.revoke(localStorage.getItem('email'), done => {
+        localStorage.clear();
+        window.location = 'index.html';
+    });
 }
 
 main();

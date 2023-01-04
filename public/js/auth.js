@@ -61,15 +61,4 @@ function handleCredentialResponse(response) {
         .catch(console.warn);
 }
 
-const button = document.getElementById('google_sign_out');
-
-button.onclick = () => {
-    google.accounts.id.disableAutoSelect();
-
-    google.accounts.id.revoke(localStorage.getItem('email'), done => {
-        localStorage.clear();
-        location.reload();
-    });
-}
-
 main();
