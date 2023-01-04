@@ -53,8 +53,8 @@ const connectSocket = async () => {
         console.log('Socket offline');
     });
 
-    socket.on('receive-message', () => {
-        
+    socket.on('receive-message', payload => {
+        console.log('=== chat.js [57] ===', payload);
     });
 
     socket.on('user-connected', showUsers);
@@ -88,6 +88,24 @@ const showUsers = (usersConnected = []) => {
 const main = async () => {
     await validateJWT();
 }
+
+message.addEventListener('keyup', ({keyCode}) => {
+    if(keyCode !== 13) return;
+
+    const currentMessage = message.value.trim();
+    const currentUid = uid.value.trim();
+
+    if(currentMessage.length === 0) return;
+
+    const payload = {
+        message: currentMessage,
+        uid: currentUid
+    }
+
+    socket.emit('send-message', payload);
+
+    message.value = '';
+});
 
 logout.onclick = () => {
     socket.disconnect();

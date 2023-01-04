@@ -21,3 +21,6 @@ export const GOOGLE_PATH = '/google';
 
 export const USER_CONNECTED_SOCKET_PATH = 'user-connected';
 export const DISCONNECTED_SOCKET_PATH = 'disconnect';
+
+export const RECEIVE_MESSAGE = 'receive-message';
+export const SEND_MESSAGE = 'send-message';
