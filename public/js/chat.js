@@ -1,6 +1,4 @@
-const url = ( window.location.hostname.includes('localhost') )
-            ? 'http://localhost:8080/api/auth'
-            : 'https://chat-websocket-nodejs-app-production.up.railway.app/api/auth';
+const url = 'https://chat-websocket-nodejs-app-production.up.railway.app/api/auth';
 
 const uid = document.querySelector('#uid');
 const message = document.querySelector('#message');
